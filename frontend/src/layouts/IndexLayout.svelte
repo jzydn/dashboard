@@ -1,103 +1,127 @@
-<script>
-	import { onMount } from 'svelte';
+<Head/>
 
-	let loaded = false;
-
-	onMount(() => {
-		setTimeout(() => {
-			loaded = true;
-		}, 200);
-	});
-
-	// Custom fade + fly transition
-	function fadeFly(node, { delay = 0, duration = 400, y = 30 }) {
-		return {
-			delay,
-			duration,
-			css: (t, u) => `
-				opacity: ${t};
-				transform: translateY(${u * y}px);
-			`
-		};
-	}
-</script>
-
-<svelte:head>
-	<title>Whitelabel Dashboard</title>
-</svelte:head>
-
-<div class="hero">
-	{#if loaded}
-		<div class="card" transition:fadeFly={{ duration: 400, y: 30 }}>
-			<h1>🚀 Welcome to Your Whitelabel Dashboard</h1>
-			<p>
-				Manage your whitelabel Discord bots, track usage, update statuses, and personalize
-				them with futuristic flair.
-			</p>
-			<div class="actions">
-				<button on:click={() => alert("Coming soon!")}>Launch Bot</button>
-				<button on:click={() => alert("Coming soon!")}>View Logs</button>
-				<button on:click={() => alert("Coming soon!")}>Settings</button>
-			</div>
-		</div>
-	{/if}
+<div class="wrapper">
+  <Sidebar {userData} />
+  <div class="super-container">
+    {#if currentRoute.component !== Index}
+      <LoadingScreen/>
+    {/if}
+    <NotifyModal/>
+    <div class="content-container" class:hide={$loadingScreen}>
+      <Route {currentRoute} {params}/>
+    </div>
+  </div>
 </div>
 
+<script>
+  import { Route } from 'svelte-router-spa'
+  import Head from '../includes/Head.svelte'
+  import Sidebar from '../includes/Sidebar.svelte'
+  import LoadingScreen from '../includes/LoadingScreen.svelte'
+  import NotifyModal from '../includes/NotifyModal.svelte'
+  import { loadingScreen } from "../js/stores"
+  import { redirectLogin, setDefaultHeaders } from '../includes/Auth.svelte'
+  import { onMount } from "svelte";
+  import Index from "../views/Index.svelte";
+
+  export let currentRoute;
+  export let params = {};
+
+  setDefaultHeaders()
+
+  let userData = {
+    id: 0,
+    username: 'Unknown',
+    avatar: '',
+    admin: false
+  };
+
+  onMount(() => {
+    if (!window.localStorage.getItem('user_data') || !window.localStorage.getItem('guilds')) {
+      redirectLogin();
+      return;
+    }
+
+    const retrieved = window.localStorage.getItem('user_data');
+    if (retrieved) {
+      userData = JSON.parse(retrieved);
+    }
+  });
+</script>
+
 <style>
-	.hero {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
-		background: linear-gradient(to bottom right, #1a1a2e, #16213e);
-		color: #f5f5f5;
-		padding: 2rem;
-	}
+  :global(body) {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #0f0f12;
+    color: #f1f1f1;
+    padding: 0 !important;
+    overflow: hidden;
+  }
 
-	.card {
-		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
-		padding: 3rem;
-		border-radius: 1.5rem;
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-		text-align: center;
-		max-width: 700px;
-		width: 100%;
-		transition: all 0.3s ease-in-out;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-	}
+  .wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: linear-gradient(to bottom right, #0f0f12, #1a1a1e);
+  }
 
-	h1 {
-		font-size: 2.5rem;
-		margin-bottom: 1rem;
-		color: #ffffff;
-	}
+  .super-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  }
 
-	p {
-		font-size: 1.1rem;
-		margin-bottom: 2rem;
-		color: #cccccc;
-	}
+  .content-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.015);
+    border-radius: 1rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+    transition: opacity 0.25s ease-in-out;
+  }
 
-	.actions {
-		display: flex;
-		gap: 1rem;
-		justify-content: center;
-		flex-wrap: wrap;
-	}
+  .hide {
+    visibility: hidden;
+    opacity: 0;
+  }
 
-	button {
-		background: #00b4d8;
-		color: white;
-		border: none;
-		padding: 0.75rem 1.5rem;
-		border-radius: 0.75rem;
-		font-size: 1rem;
-		cursor: pointer;
-		transition: background 0.2s ease;
-	}
+  @media (max-width: 950px) {
+    .wrapper {
+      flex-direction: column;
+    }
 
-	button:hover {
-		background: #0096c7;
-	}
+    .content-container {
+      border-radius: 0;
+    }
+  }
+
+  /* Optional: smoother scrollbar for modern look */
+  :global(*) {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #1a1a1e;
+  }
+
+  :global(*::-webkit-scrollbar) {
+    width: 8px;
+    height: 8px;
+  }
+
+  :global(*::-webkit-scrollbar-thumb) {
+    background: #444;
+    border-radius: 4px;
+  }
+
+  :global(*::-webkit-scrollbar-track) {
+    background: #1a1a1e;
+  }
 </style>
