@@ -255,7 +255,7 @@
         const res = await axios.get(`${API_URL}/user/whitelabel/`);
         if (res.status !== 200) {
             if (res.status === 402) {
-                window.location.replace("https://tickets-dashboard.tlgy.lol/");
+                window.location.replace("https://tickets.extracted.lol");
                 return false;
             }
 
