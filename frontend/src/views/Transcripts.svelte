@@ -71,7 +71,7 @@
                 <td class="reason">{transcript.close_reason || 'No reason specified'}</td>
                 {#if transcript.has_transcript}
                   <td>
-                    <Navigate to="{`/manage/${guildId}/transcripts/view/${transcript.ticket_id}`}" styles="link">
+                    <Navigate to="{/manage/${guildId}/transcripts/view/${transcript.ticket_id}}" styles="link">
                       <Button>View</Button>
                     </Navigate>
                   </td>
@@ -203,7 +203,7 @@
     }
 
     async function loadPanels() {
-        const res = await axios.get(`${API_URL}/api/${guildId}/panels`);
+        const res = await axios.get(${API_URL}/api/${guildId}/panels);
         if (res.status !== 200) {
             notifyError(res.data.error);
             return;
@@ -213,7 +213,7 @@
     }
 
     async function loadData(paginationSettings) {
-        const res = await axios.post(`${API_URL}/api/${guildId}/transcripts`, paginationSettings);
+        const res = await axios.post(${API_URL}/api/${guildId}/transcripts, paginationSettings);
         if (res.status !== 200) {
             notifyError(res.data.error);
             return false;
