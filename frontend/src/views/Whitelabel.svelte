@@ -204,7 +204,7 @@
     let errors = [];
 
     async function invite() {
-        const res = await axios.get(${API_URL}/user/whitelabel/);
+        const res = await axios.get(`${API_URL}/user/whitelabel/`);
         if (res.status !== 200) {
             notifyError(res.data.error);
             return;
@@ -219,7 +219,7 @@
             token: token
         };
 
-        const res = await axios.post(${API_URL}/user/whitelabel/, data);
+        const res = await axios.post(`${API_URL}/user/whitelabel/`, data);
         if (res.status !== 200 || !res.data.success) {
             notifyError(res.data.error);
             return;
@@ -228,7 +228,7 @@
         $: token = '';
 
         await loadBot();
-        notifySuccess(Started tickets whitelabel on ${res.data.bot.name});
+        notifySuccess(`Started tickets whitelabel on ${res.data.bot.name}`);
     }
 
     async function updateStatus() {
@@ -237,7 +237,7 @@
             status_type: bot.status_type,
         };
 
-        const res = await axios.post(${API_URL}/user/whitelabel/status, data);
+        const res = await axios.post(`${API_URL}/user/whitelabel/status`, data);
         if (res.status !== 200 || !res.data.success) {
             if (res.status === 429) {
                 notifyRatelimit()
@@ -252,7 +252,19 @@
     }
 
     async function loadBot() {
-        const res = await axios.get(${API_URL}/user/whitelabel/);
+        const res = await axios.get(`${API_URL}/user/whitelabel/`);
+        if (res.status !== 200) {
+            if (res.status === 402) {
+                window.location.replace("https://tickets-dashboard.tlgy.lol/");
+                return false;
+            }
+
+            if (res.status !== 404) {
+                notifyError(res.data.error);
+            }
+
+            return true;
+        }
 
         bot = res.data;
 
@@ -262,7 +274,7 @@
     }
 
     async function loadErrors() {
-        const res = await axios.get(${API_URL}/user/whitelabel/errors);
+        const res = await axios.get(`${API_URL}/user/whitelabel/errors`);
         if (res.status !== 200 || !res.data.success) {
             notifyError(res.data.error);
             return;
@@ -279,7 +291,7 @@
             timeout: 20 * 1000
         };
 
-        const res = await axios.post(${API_URL}/user/whitelabel/create-interactions, {}, opts);
+        const res = await axios.post(`${API_URL}/user/whitelabel/create-interactions`, {}, opts);
         if (res.status !== 200 || !res.data.success) {
             notifyError(res.data.error);
             return;
@@ -289,7 +301,7 @@
     }
 
     async function disable() {
-        const res = await axios.delete(${API_URL}/user/whitelabel/);
+        const res = await axios.delete(`${API_URL}/user/whitelabel/`);
         if (res.status !== 204) {
             notifyError(res.data.error);
             return;
