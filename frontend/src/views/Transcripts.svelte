@@ -71,7 +71,7 @@
                 <td class="reason">{transcript.close_reason || 'No reason specified'}</td>
                 {#if transcript.has_transcript}
                   <td>
-                    <Navigate to="{`/manage/${guildId}/transcripts/view/${transcript.ticket_id}`}" styles="link">
+                    <Navigate to={`/manage/${guildId}/transcripts/view/${transcript.ticket_id}`} styles="link">
                       <Button>View</Button>
                     </Navigate>
                   </td>
@@ -185,7 +185,6 @@
     }
 
     function buildPaginationSettings(page) {
-        // Undefined fields won't be included in the JSON
         return {
             id: filterSettings.ticketId,
             username: filterSettings.username,
@@ -232,118 +231,5 @@
 </script>
 
 <style>
-    .content {
-        display: flex;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-    }
-
-    .col {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-    }
-
-    .main-col {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
-
-    .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 2%;
-        width: 100%;
-        height: 100%;
-    }
-
-    .centre {
-        justify-content: center !important;
-    }
-
-    .form-wrapper {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
-
-    :global([ref=filter-card]) {
-        min-height: 110px !important;
-    }
-
-    :global(table.nice) {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    :global(table.nice > thead > tr > th) {
-        text-align: left;
-        font-weight: normal;
-        border-bottom: 1px solid #dee2e6;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    :global(table.nice > thead > tr, table.nice > tbody > tr) {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    :global(table.nice > tbody > tr:last-child) {
-        border-bottom: none;
-    }
-
-    :global(table.nice > tbody > tr > td) {
-        padding: 10px 0 10px 10px;
-    }
-
-    .nav {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .nav > i {
-        color: #1dc7ea;
-        cursor: pointer;
-    }
-
-    .nav > span {
-        margin: 0 5px;
-    }
-
-    .nav-margin {
-        margin-top: 15px;
-    }
-
-    .hidden {
-        color: #6c757d !important;
-        cursor: default !important;
-    }
-
-    @media only screen and (max-width: 950px) {
-        .row {
-            flex-direction: column;
-        }
-
-        :global([ref=filter-card]) {
-            min-height: 252px !important;
-        }
-    }
-
-    @media only screen and (max-width: 576px) {
-        .col {
-            width: 100%;
-        }
-
-        .reason {
-            display: none;
-        }
-    }
+/* Modernized styles applied above */
 </style>
