@@ -42,6 +42,20 @@
         margin: 1vh auto auto;
         width: 30%;
     }
+
+    main::-webkit-scrollbar {
+    width: 8px;
+}
+
+main::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
 </style>
 
 <script>
