@@ -19,29 +19,48 @@
 </main>
 
 <style>
-    main {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        row-gap: 1vh;
-    }
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1vh;
+    max-height: 100vh;        /* Limit height to viewport */
+    overflow-y: auto;         /* Enable vertical scrolling if needed */
+    padding-right: 10px;      /* Prevent content hiding behind scrollbar */
+    scroll-behavior: smooth;  /* Optional: smooth scroll */
+}
 
-    main > a {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 18px;
-    }
+/* Optional: style the scrollbar (works in WebKit-based browsers like Chrome/Edge) */
+main::-webkit-scrollbar {
+    width: 8px;
+}
 
-    .body-wrapper {
-        display: flex;
-        flex-direction: column;
-    }
+main::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
 
-    .submit-wrapper {
-        margin: 1vh auto auto;
-        width: 30%;
-    }
+main::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+main > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+}
+
+.body-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-wrapper {
+    margin: 1vh auto auto;
+    width: 30%;
+}
+
 </style>
 
 <script>
