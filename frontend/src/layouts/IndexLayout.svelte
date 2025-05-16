@@ -50,45 +50,38 @@
 </script>
 
 <style>
-  :global(body) {
-    margin: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #0f0f12;
-    color: #f1f1f1;
-    padding: 0 !important;
-    overflow: hidden;
-  }
+:global(html),
+:global(body) {
+  height: 100%;
+  overflow: hidden; /* Keep this on body, but ensure the scrollable container handles it */
+}
 
-  .wrapper {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: linear-gradient(to bottom right, #0f0f12, #1a1a1e);
-  }
+.wrapper {
+  height: 100vh; /* Ensures it fills the full viewport height */
+  overflow: hidden;
+}
 
-  .super-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
-  }
+.super-container {
+  height: 100vh;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Needed if content is vertical */
+}
 
-  .content-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    padding: 1rem;
-    box-sizing: border-box;
-    overflow-y: auto;
-    background-color: rgba(255, 255, 255, 0.015);
-    border-radius: 1rem;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
-    transition: opacity 0.25s ease-in-out;
-  }
+.content-container {
+  flex: 1;
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.015);
+  border-radius: 1rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+  transition: opacity 0.25s ease-in-out;
+  min-height: 0; /* Prevents overflow bugs in flexbox children */
+}
+
 
   .hide {
     visibility: hidden;
